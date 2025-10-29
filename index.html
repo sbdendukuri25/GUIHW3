@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HW3 · Dynamic Multiplication Table</title>
+  <meta name="description" content="COMP 4610 GUI I — HW3: Build a multiplication table dynamically from four integer parameters with validation and sticky headers." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!--
+    Student: Sri Bhargava Dendukuri (SriBhargava_Dendukuri@student.uml.edu)
+  Course: COMP 4610 – GUI I, HW3
+  Repo: https://github.com/<username>/hw3-dynamic-table
+  Live: https://<username>.github.io/hw3-dynamic-table/
+    Files: index.html, styles.css, app.js
+    - Keep JS lean but readable. Zero frameworks.
+    - No alert() popups. Errors go to an aria-live region so SR users get updates.
+    - Allow swapped ranges; normalize before building (less branching later).
+    - Put safety rails in place so the page never hangs (cell budget).
+    - Make headers sticky with CSS (position: sticky); avoid JS scroll hacks.
+  -->
+
+  <main class="container" aria-labelledby="page-title">
+    <h1 id="page-title">Dynamic Multiplication Table</h1>
+    <p class="subtle">
+      Enter ranges for the <strong>horizontal (multiplier)</strong> and <strong>vertical (multiplicand)</strong> axes.
+      I normalize swapped inputs, validate everything, and then build the grid.
+    </p>
+
+    <!-- I keep the form minimal; all validation/UX happens in app.js -->
+    <form id="hw3-form" novalidate>
+      <div class="grid">
+        <label class="field">
+          <span>Horizontal start (multiplier)</span>
+          <input id="hStart" name="hStart" type="number" step="1" inputmode="numeric" placeholder="-5" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span>Horizontal end (multiplier)</span>
+          <input id="hEnd" name="hEnd" type="number" step="1" inputmode="numeric" placeholder="5" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span>Vertical start (multiplicand)</span>
+          <input id="vStart" name="vStart" type="number" step="1" inputmode="numeric" placeholder="-5" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span>Vertical end (multiplicand)</span>
+          <input id="vEnd" name="vEnd" type="number" step="1" inputmode="numeric" placeholder="5" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="buildBtn">Build table</button>
+        <button type="button" id="resetBtn" class="ghost">Reset</button>
+      </div>
+    </form>
+
+    <!-- aria-live so status/errors are announced without popups -->
+    <div class="status" aria-live="polite" aria-atomic="true">
+      <span id="okMsg" class="ok"></span>
+      <span id="errMsg" class="err"></span>
+    </div>
+
+    <section class="table-wrap" aria-label="Generated multiplication table">
+      <div class="scroll">
+        <table id="grid" aria-describedby="page-title">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

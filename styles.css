@@ -1,0 +1,220 @@
+/* 
+    Student: Sri Bhargava Dendukuri (SriBhargava_Dendukuri@student.uml.edu)
+  Course: COMP 4610 – GUI I, HW3
+  Repo: https://github.com/<username>/hw3-dynamic-table
+  Live: https://<username>.github.io/hw3-dynamic-table/
+
+  color variables so I can adjust theme quickly later
+*/
+
+
+:root{
+  --bg: #0e0f14;
+  --panel: #121420;
+  --ink: #f5f7ff;
+  --muted: #9aa4bf;
+
+  --accent: #6ee7ff;   /* focus glow + highlight */
+  --ok: #2bd19b;       /* success text */
+  --err: #ff6b6b;      /* error text */
+
+  --head: #005ad6;     /* top header background */
+  --head2: #003a8c;    /* left header background */
+
+  --grid-a: #141a2b;   /* table row A */
+  --grid-b: #182033;   /* table row B */
+
+  --ring: rgba(110,231,255,.3);  /* focus ring outline */
+  --hair: rgba(255,255,255,.08); /* subtle borders */
+
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* basic layout reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+/* page background + general type */
+body{
+  margin: 0;
+  font: 16px/1.5 system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* main centered card container */
+.container{
+  max-width: 1000px;
+  margin: 36px auto;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  box-shadow: var(--shadow);
+}
+
+h1{
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.subtle{
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+
+/* input layout grid */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+
+/* form field structure */
+.field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  grid-column: span 3;
+}
+
+.field span{
+  font-weight: 600;
+  color: #d7e1ff;
+}
+
+/* input box styling */
+.field input{
+  padding: 10px 12px;
+  background: #0f1322;
+  border: 1px solid var(--hair);
+  border-radius: 10px;
+  color: var(--ink);
+  transition: border .15s, box-shadow .15s, transform .05s;
+}
+
+/* highlight input on focus */
+.field input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* button row */
+.actions{
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* base button appearance */
+button{
+  border: 1px solid var(--hair);
+  background: #0f1526;
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .05s, filter .15s;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+
+/* simple hover/press feedback */
+button:hover{ filter: brightness(1.08); }
+button:active{ transform: translateY(1px); }
+
+/* slight emphasis to build button */
+#buildBtn{ border-color: rgba(110,231,255,.35); }
+
+/* status messages under form */
+.status{
+  min-height: 22px;
+  margin: 8px 0 12px;
+  font-size: .95rem;
+}
+
+.ok{ color: var(--ok); }
+.err{ color: var(--err); }
+
+/* outer wrap for table */
+.table-wrap{
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  background: #0d1120;
+  overflow: hidden;
+}
+
+/* scroll area so table itself is not huge */
+.scroll{
+  max-height: 65vh;
+  overflow: auto;
+  position: relative;
+}
+
+/* table defaults */
+table{
+  width: max-content;   /* prevent squeezing columns */
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* top header row (sticky) */
+thead th{
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--head);
+  color: #e9f4ff;
+  font-weight: 800;
+  text-align: center;
+  border-bottom: 1px solid var(--hair);
+}
+
+/* first column (sticky) */
+tbody th{
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--head2);
+  color: #e9f4ff;
+  font-weight: 800;
+  text-align: center;
+  border-right: 1px solid var(--hair);
+}
+
+/* fix for top-left intersection overlap */
+thead th.corner{
+  left: 0;
+  z-index: 4;
+}
+
+/* cell spacing + appearance */
+td, th{
+  padding: 10px 12px;
+  border-right: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* alternating rows */
+tbody td{ background: var(--grid-a); }
+tbody tr:nth-child(even) td{ background: var(--grid-b); }
+
+/* subtle outline when hovering a cell */
+tbody td:hover{
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* responsive form columns */
+@media (max-width: 900px){
+  .field{ grid-column: span 6; }
+}
+@media (max-width: 560px){
+  .field{ grid-column: span 12; }
+}
